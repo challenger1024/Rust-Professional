@@ -15,6 +15,8 @@ mod tests {
         let start = Instant::now();
         let result = goldbach_conjecture();
         let duration = start.elapsed();
+        dbg!(&result); 
+        dbg!(duration); 
 
         // 时间超0.5s，判定不合格
         let mut total_score = 0.0;

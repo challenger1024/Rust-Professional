@@ -31,6 +31,7 @@ mod tests {
 
             // 时间超3s，判定不合格
             if duration <= Duration::new(3, 0) && result == *expected {
+                dbg!(input);
                 total_score += 10.0;
             }
         }

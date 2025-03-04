@@ -1,3 +1,6 @@
+//#![allow(unused_imports)]
+
+use chrono::Duration;
 // src/tests.rs
 mod retirement;
 
@@ -27,8 +30,14 @@ mod tests {
         for (time, tp, expected) in TEST_CASES {
             let start = Instant::now();
             let result = retire_time(*time, *tp);
+//            println!("{},{},{}",time,tp,result);
+//            dbg!()result.clone();
             let duration = start.elapsed();
+//            println!("{}",duration <= Duration::from_millis(200));
+            if result!=*expected{
+                println!("{},{},{}",time,tp,result);
 
+            }
             // 时间超0.2s，判定不合格
             if duration <= Duration::from_millis(200) && result == *expected {
                 total_score += 10.0;

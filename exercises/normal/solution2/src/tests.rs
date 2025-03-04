@@ -21,6 +21,8 @@ mod tests {
 
         for (input1, input2, expected) in TEST_CASES {
             let result = convert_base(*input1, *input2);
+//            dbg!(*input1); // 打印 result           
+//            dbg!(result.clone()); // 打印 result
 
             if result == *expected {
                 total_score += 20.0;

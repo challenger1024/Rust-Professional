@@ -1,55 +1,113 @@
-/*
-    Sum of Two Integers
-    Given two integers, calculate their sum without using the `+` operator. 
-    You need to implement the function `get_sum(a: i32, b: i32) -> i32`.
-    The function should return the sum of the two integers `a` and `b`.
+#![allow(unused_imports)]
 
-    Hint: You can solve this problem using bitwise operations.
+/*
+	
+Sum of Two Integers
+	
+Given two integers, calculate their sum without using the `+` operator. 
+	
+You need to implement the function `get_sum(a: i32, b: i32) -> i32`.
+	
+The function should return the sum of the two integers `a` and `b`.
+
+	
+Hint: You can solve this problem using bitwise operations.
 */
 
 use std::fmt::{self, Display, Formatter};
 
-pub fn get_sum(a: i32, b: i32) -> i32 {
-    // TODO: Implement the logic to calculate the sum of two integers without using `+`
-    0 // Placeholder return value
+pub fn get_sum(mut a: i32, mut b: i32) -> i32 {
+// TODO: Implement the logic to calculate the sum of two integers without using `+`
+	while b!=0{
+		let carry=a&b;//两个数的进位，两个数都为1的二进制位需要进位
+		a=a^b;//无进位加法，0+1=1,1+1=0,0+0=0
+		b=carry<<1;//竟然进位了，都*2，将位置移动到正确 的位置
+	}
+	a // Placeholder return value
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+	
+use super::*;
 
-    #[test]
-    fn test_sum_1() {
-        let result = get_sum(1, 2);
-        println!("Sum of 1 and 2: {}", result);
-        assert_eq!(result, 3);
-    }
+	
+#[test]
+	
+fn test_sum_1() {
+	
+	
+let result = get_sum(1, 2);
+	
+	
+println!("Sum of 1 and 2: {}", result);
+	
+	
+assert_eq!(result, 3);
+	
+}
 
-    #[test]
-    fn test_sum_2() {
-        let result = get_sum(-1, 1);
-        println!("Sum of -1 and 1: {}", result);
-        assert_eq!(result, 0);
-    }
+	
+#[test]
+	
+fn test_sum_2() {
+	
+	
+let result = get_sum(-1, 1);
+	
+	
+println!("Sum of -1 and 1: {}", result);
+	
+	
+assert_eq!(result, 0);
+	
+}
 
-    #[test]
-    fn test_sum_3() {
-        let result = get_sum(100, 200);
-        println!("Sum of 100 and 200: {}", result);
-        assert_eq!(result, 300);
-    }
+	
+#[test]
+	
+fn test_sum_3() {
+	
+	
+let result = get_sum(100, 200);
+	
+	
+println!("Sum of 100 and 200: {}", result);
+	
+	
+assert_eq!(result, 300);
+	
+}
 
-    #[test]
-    fn test_sum_4() {
-        let result = get_sum(-50, -50);
-        println!("Sum of -50 and -50: {}", result);
-        assert_eq!(result, -100);
-    }
+	
+#[test]
+	
+fn test_sum_4() {
+	
+	
+let result = get_sum(-50, -50);
+	
+	
+println!("Sum of -50 and -50: {}", result);
+	
+	
+assert_eq!(result, -100);
+	
+}
 
-    #[test]
-    fn test_sum_5() {
-        let result = get_sum(0, 0);
-        println!("Sum of 0 and 0: {}", result);
-        assert_eq!(result, 0);
-    }
+	
+#[test]
+	
+fn test_sum_5() {
+	
+	
+let result = get_sum(0, 0);
+	
+	
+println!("Sum of 0 and 0: {}", result);
+	
+	
+assert_eq!(result, 0);
+	
+}
 }
