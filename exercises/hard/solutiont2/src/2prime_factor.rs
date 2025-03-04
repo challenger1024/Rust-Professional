@@ -1,3 +1,4 @@
+// src/prime_factor.rs
 extern crate rand;
 use rand::Rng;
 
@@ -11,13 +12,12 @@ fn gcd(mut a: u128, mut b: u128) -> u128 {
     a
 }
 
-// 确定性 Miller-Rabin 素性测试
+// Miller-Rabin 素性测试
 fn is_prime(n: u128) -> bool {
     if n < 2 {
         return false;
     }
-    // 试除小素数
-    for p in [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97].iter() {
+    for p in [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31].iter() {
         if n % *p == 0 {
             return n == *p;
         }
@@ -28,11 +28,8 @@ fn is_prime(n: u128) -> bool {
         d /= 2;
         s += 1;
     }
-    // 确定性 Miller-Rabin 测试
-    for &a in [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37].iter() {
-        if a >= n {
-            continue;
-        }
+    for _ in 0..10 {
+        let a = rand::thread_rng().gen_range(2..n - 1);
         let mut x = pow_mod(a, d, n);
         if x == 1 || x == n - 1 {
             continue;
@@ -93,8 +90,7 @@ fn pollard_rho(p: u128) -> u128 {
                 break;
             }
 
-            // 减少 gcd 计算频率
-            if i % 128 == 0 || i == j {
+            if i % 127 == 0 || i == j {
                 d = gcd(z, p);
                 if d > 1 && d < p {
                     return d;
@@ -115,7 +111,7 @@ pub fn find_max_prime_factor(mut number: u128) -> u128 {
     let mut ans = 1;
 
     // 先检查小素数因子
-    for p in [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97].iter() {
+    for p in [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31].iter() {
         if number % *p == 0 {
             ans = ans.max(*p);
             while number % *p == 0 {
