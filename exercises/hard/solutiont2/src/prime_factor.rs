@@ -1,6 +1,3 @@
-extern crate rand;
-use rand::Rng;
-
 // 计算 gcd
 fn gcd(mut a: u128, mut b: u128) -> u128 {
     while b != 0 {
@@ -63,7 +60,7 @@ fn pow_mod(mut x: u128, mut y: u128, p: u128) -> u128 {
     result
 }
 
-// 使用 Pollard Rho 算法寻找因子
+// 使用确定性 Pollard Rho 算法寻找因子
 fn pollard_rho(p: u128) -> u128 {
     if p % 2 == 0 {
         return 2;
@@ -72,41 +69,24 @@ fn pollard_rho(p: u128) -> u128 {
         return p;
     }
 
-    let mut rng = rand::thread_rng();
-    loop {
-        let mut x = rng.gen_range(2..p);
-        let mut y = x;
-        let c = rng.gen_range(1..p);
-        let mut d = 1;
-        let mut z = 1;
-        let mut i = 0;
-        let mut j = 1;
+    let mut x = 2;
+    let mut y = 2;
+    let c = 1;
+    let mut d = 1;
 
-        while d == 1 {
-            x = (pow_mod(x, 2, p) + c) % p;
-            y = (pow_mod(y, 2, p) + c) % p;
-            y = (pow_mod(y, 2, p) + c) % p;
+    while d == 1 {
+        x = (pow_mod(x, 2, p) + c) % p;
+        y = (pow_mod(y, 2, p) + c) % p;
+        y = (pow_mod(y, 2, p) + c) % p;
 
-            z = (z * (if y > x { y - x } else { x - y })) % p;
+        d = gcd(if x > y { x - y } else { y - x }, p);
+    }
 
-            if z == 0 {
-                break;
-            }
-
-            // 减少 gcd 计算频率
-            if i % 128 == 0 || i == j {
-                d = gcd(z, p);
-                if d > 1 && d < p {
-                    return d;
-                }
-                if i == j {
-                    y = x;
-                    j <<= 1;
-                }
-            }
-
-            i += 1;
-        }
+    if d == p {
+        // 如果未找到因子，重新尝试
+        pollard_rho(p)
+    } else {
+        d
     }
 }
 
